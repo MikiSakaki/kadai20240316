@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ランニングと朝食MAP</title>
+<style>
+
+html,body{height:100%;}body{padding:0;margin:0;}h1{padding:0;margin:0;font-size:50%;}</style>
+<link href="map.css" rel="stylesheet" type="text/css" media="all">
+</head>
+<body>
+
+<!-- MAP[START] -->
+<div class="logo">
+<img src="./img/ランブレ透過_RGB2022ver.png" alt="" class="logo2">
+</div>
+
+
+
+<h1>ランニングと朝食MAP</h1>
+
+<div class="lead">
+    <p>
+        仲間と美味しい朝食会場を目指しておしゃべりしながら一緒に走ろう！
+    </p>
+</div>
+
+
+
+<div id="myMap" style='width:60%;height:70%;float:center;'></div>
+<!-- MAP[END] -->
+
+<script src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AuQe-Cr7VI3dZO5SYwPnYdhvVuHZsauVOL9CaSKOOlBN7zwaVS7zIpp9AuSSWgzL' async defer></script>
+<script src="../js/BmapQuery.js"></script>
+<script>
+//****************************************************************************************
+// BingMaps&BmapQuery
+//****************************************************************************************
+//Init
+function GetMap(){
+    //------------------------------------------------------------------------
+    //1. Instance
+    //------------------------------------------------------------------------
+    const map = new Bmap("#myMap");
+
+    //------------------------------------------------------------------------
+    //2. Display Map
+    //------------------------------------------------------------------------
+    map.startMap(35.682639, 139.798722, "load", 15); //The place is Bellevue.
+
+    //----------------------------------------------------
+    //3. Add Infobox-Actions(Event)
+    // map.onInfobox(lat, lon, "title","description", "text or html");
+    //----------------------------------------------------
+    //Location 1 Configuration
+    const title1 = "iki Espresso";
+    const discript1 = '<div style="width:200px;color:red;">記念すべき第一回の朝食会場でした！<br><img src="./img/iki.jpg" width="200" height="150"></div>';
+
+    const actions1 = [
+        {
+            label: 'web',
+            eventHandler: function () {
+                window.open('https://www.iki-espresso.com/');
+            }
+        }  
+    ];
+
+    //Location 2 Configuration
+    const title2 = "CLANN BY THE RIVER";
+    const discript2 = '<div style="width:200px;color:red;">Description for Location 2<br><img src="./img/clannbytheriver.jpeg" width="200" height="150"></div>';
+    const actions2 = [
+        {
+            label: 'web',
+            eventHandler: function () {
+                window.open('https://clannbytheriver.jp/');
+            }
+        }
+    ];
+
+    // Add pushpin at specified coordinates for Location 1
+    const pushpinLocation1 = new Microsoft.Maps.Location(35.68519122, 139.79787977);
+    const pushpin1 = new Microsoft.Maps.Pushpin(pushpinLocation1);
+    map.map.entities.push(pushpin1);
+    
+    // Create Event to Infobox for Location 1
+    Microsoft.Maps.Events.addHandler(pushpin1, 'click', function () {
+        map.onInfobox(pushpinLocation1.latitude, pushpinLocation1.longitude, title1, discript1, actions1);
+    });
+
+    // Add pushpin at specified coordinates for Location 2
+    const pushpinLocation2 = new Microsoft.Maps.Location(35.68171675978496, 139.79176720977492); // Different coordinates for Location 2
+    const pushpin2 = new Microsoft.Maps.Pushpin(pushpinLocation2);
+    map.map.entities.push(pushpin2);
+
+    // Create Event to Infobox for Location 2
+    Microsoft.Maps.Events.addHandler(pushpin2, 'click', function () {
+        map.onInfobox(pushpinLocation2.latitude, pushpinLocation2.longitude, title2, discript2, actions2);
+    });
+}
+
+
+
+
+</script>
+
+</body>
+</html>
